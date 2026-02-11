@@ -12,24 +12,31 @@
     text-align: center;
     overflow: hidden;
     height: 100vh;
-    /* Make photo the background */
     background: url('ourphoto.jpg') no-repeat center center fixed;
     background-size: cover;
+    color: #fff;
+    text-shadow: 2px 2px 6px #000;
   }
 
-  h1 {
-    margin-top: 60px;
-    color: #ffffff;
-    text-shadow: 2px 2px 6px #000000;
-    font-size: 28px;
+  #topMessage {
+    margin-top: 40px;
+    font-size: 20px;
     padding: 0 15px;
   }
 
+  #valentineMsg {
+    font-size: 50px;
+    font-weight: bold;
+    margin-top: 60px;
+    color: #ff3366;
+    text-shadow: 3px 3px 8px #000000;
+  }
+
   .button-container {
-    margin-top: 30px;
+    margin-top: 40px;
     position: relative;
     height: 200px;
-    z-index: 10; /* make sure buttons stay on top */
+    z-index: 10;
   }
 
   button {
@@ -52,16 +59,6 @@
     background-color: #888;
     color: white;
     position: absolute;
-  }
-
-  #message {
-    margin-top: 20px;
-    font-size: 20px;
-    color: #ffffff;
-    text-shadow: 2px 2px 6px #000000;
-    padding: 0 15px;
-    z-index: 10;
-    position: relative;
   }
 
   .heart {
@@ -88,24 +85,22 @@
   }
 
   @keyframes fall {
-    to {
-      transform: translateY(100vh) rotate(720deg);
-      opacity: 0;
-    }
+    to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
   }
 </style>
 </head>
 
 <body>
 
-<h1>Hannah 💕<br>Will you be my Valentine?</h1>
+
+<div id="valentineMsg">
+  Will you be my Valentine?
+</div>
 
 <div class="button-container">
   <button id="yesBtn" onclick="sayYes()">YES</button>
   <button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">NO</button>
 </div>
-
-<div id="message"></div>
 
 <audio id="bgMusic" src="canthelpfallinginlove.mp3" loop></audio>
 
@@ -113,21 +108,17 @@
 let yesSize = 18;
 let noClicks = 0;
 
-// Autoplay music (with mobile fallback)
+// Autoplay music (mobile-friendly)
 const music = document.getElementById("bgMusic");
 function startMusic() {
   music.play().catch(() => {
-    document.body.addEventListener('click', () => {
-      music.play();
-    }, { once: true });
+    document.body.addEventListener('click', () => { music.play(); }, { once: true });
   });
 }
 window.onload = startMusic;
 
 function sayYes() {
-  document.getElementById("message").innerHTML =
-    "Bubi 💕, every moment with you feels like magic. Life is full of colors, sweeter, brighter, and happier because of you. Will you be my Valentine? ❤️ 🥰";
-
+  alert("Bubi 💕, every moment with you feels like magic. Life is full of colors, sweeter, brighter, and happier because of you. Will you be my Valentine? 🥰");
   music.play();
   launchConfetti();
 }
@@ -148,7 +139,7 @@ function moveNo() {
   yesSize += 3;
   const yesBtn = document.getElementById("yesBtn");
   yesBtn.style.fontSize = yesSize + "px";
-  yesBtn.style.position = "relative"; // keep YES button inside container
+  yesBtn.style.position = "relative";
 
   noClicks++;
   if(noClicks >= 5) {
@@ -177,7 +168,6 @@ setInterval(() => {
   heart.style.left = Math.random() * 100 + "vw";
   heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
   document.body.appendChild(heart);
-
   setTimeout(() => heart.remove(), 6000);
 }, 400);
 
@@ -187,11 +177,9 @@ function launchConfetti() {
     const confetti = document.createElement("div");
     confetti.className = "confetti";
     confetti.style.left = Math.random() * 100 + "vw";
-    confetti.style.backgroundColor =
-      "hsl(" + Math.random() * 360 + ", 100%, 50%)";
-    confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+    confetti.style.backgroundColor = "hsl(" + Math.random()*360 + ", 100%, 50%)";
+    confetti.style.animationDuration = (Math.random()*2 + 2) + "s";
     document.body.appendChild(confetti);
-
     setTimeout(() => confetti.remove(), 3000);
   }
 }
