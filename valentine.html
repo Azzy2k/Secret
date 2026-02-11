@@ -34,18 +34,20 @@
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
   }
 
   #yesBtn {
     background-color: #ff3366;
     color: white;
+    z-index: 2;
   }
 
   #noBtn {
     background-color: #888;
     color: white;
     position: absolute;
+    z-index: 1;
   }
 
   #message {
@@ -104,17 +106,17 @@
 </div>
 
 <div id="message"></div>
-
 <img id="photo" src="ourphoto.jpg" alt="Us together">
 
 <audio id="bgMusic" src="canthelpfallinginlove.mp3"></audio>
 
 <script>
 let yesSize = 18;
+let noClicks = 0;
 
 function sayYes() {
   document.getElementById("message").innerHTML =
-    "I know you would say yes!!! ❤️ Life feels better with you bubi. I love you so much 🥰";
+    "I knew you would say yes!!! ❤️ Life feels better with you bubi. I love you so much 🥰";
 
   document.getElementById("photo").style.display = "block";
   document.getElementById("bgMusic").play();
@@ -136,6 +138,26 @@ function moveNo() {
 
   yesSize += 3;
   document.getElementById("yesBtn").style.fontSize = yesSize + "px";
+
+  // Count NO attempts
+  noClicks++;
+  if(noClicks >= 5) {
+    takeOverYes();
+  }
+}
+
+// YES takes over screen after too many NO tries
+function takeOverYes() {
+  const yes = document.getElementById("yesBtn");
+  yes.style.position = "fixed";
+  yes.style.top = "50%";
+  yes.style.left = "50%";
+  yes.style.transform = "translate(-50%, -50%)";
+  yes.style.fontSize = "100px";
+  yes.style.padding = "40px 80px";
+  yes.style.borderRadius = "20px";
+  yes.style.zIndex = "999";
+  yes.style.backgroundColor = "#ff1a75";
 }
 
 // Floating hearts
