@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Hannah ❤️</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom right, #ff9a9e, #fad0c4);
+    text-align: center;
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  h1 {
+    margin-top: 60px;
+    color: #b30059;
+    font-size: 28px;
+    padding: 0 15px;
+  }
+
+  .button-container {
+    margin-top: 30px;
+    position: relative;
+    height: 200px;
+  }
+
+  button {
+    font-size: 18px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  #yesBtn {
+    background-color: #ff3366;
+    color: white;
+  }
+
+  #noBtn {
+    background-color: #888;
+    color: white;
+    position: absolute;
+  }
+
+  #message {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #800040;
+    padding: 0 15px;
+  }
+
+  img {
+    margin-top: 20px;
+    width: 85%;
+    max-width: 300px;
+    border-radius: 15px;
+    display: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  }
+
+  .heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+    color: #ff3366;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-110vh); opacity: 0; }
+  }
+
+  .confetti {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    top: 0;
+    animation: fall 3s linear forwards;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(100vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<h1>Hannah 💕<br>Will you be my Valentine?</h1>
+
+<div class="button-container">
+  <button id="yesBtn" onclick="sayYes()">YES</button>
+  <button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">NO</button>
+</div>
+
+<div id="message"></div>
+
+<img id="photo" src="ourphoto.jpg" alt="Us together">
+
+<audio id="bgMusic" src="canthelpfallinginlove.mp3"></audio>
+
+<script>
+let yesSize = 18;
+
+function sayYes() {
+  document.getElementById("message").innerHTML =
+    "I know you would say yes!!! ❤️ Life feels better with you bubi. I love you so much 🥰";
+
+  document.getElementById("photo").style.display = "block";
+  document.getElementById("bgMusic").play();
+  launchConfetti();
+}
+
+function moveNo() {
+  const button = document.getElementById("noBtn");
+  const container = document.querySelector(".button-container");
+
+  const maxX = container.clientWidth - 80;
+  const maxY = container.clientHeight - 40;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  button.style.left = x + "px";
+  button.style.top = y + "px";
+
+  yesSize += 3;
+  document.getElementById("yesBtn").style.fontSize = yesSize + "px";
+}
+
+// Floating hearts
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "❤️";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 6000);
+}, 400);
+
+// Confetti
+function launchConfetti() {
+  for (let i = 0; i < 120; i++) {
+    const confetti = document.createElement("div");
+    confetti.className = "confetti";
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.backgroundColor =
+      "hsl(" + Math.random() * 360 + ", 100%, 50%)";
+    confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+    document.body.appendChild(confetti);
+
+    setTimeout(() => confetti.remove(), 3000);
+  }
+}
+</script>
+
+</body>
+</html>
