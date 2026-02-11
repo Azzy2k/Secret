@@ -9,15 +9,18 @@
   body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom right, #ff9a9e, #fad0c4);
     text-align: center;
     overflow: hidden;
     height: 100vh;
+    /* Make photo the background */
+    background: url('ourphoto.jpg') no-repeat center center fixed;
+    background-size: cover;
   }
 
   h1 {
     margin-top: 60px;
-    color: #b30059;
+    color: #ffffff;
+    text-shadow: 2px 2px 6px #000000;
     font-size: 28px;
     padding: 0 15px;
   }
@@ -26,6 +29,7 @@
     margin-top: 30px;
     position: relative;
     height: 200px;
+    z-index: 10; /* make sure buttons stay on top */
   }
 
   button {
@@ -35,35 +39,29 @@
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
+    position: relative;
+    z-index: 10;
   }
 
   #yesBtn {
     background-color: #ff3366;
     color: white;
-    z-index: 2;
   }
 
   #noBtn {
     background-color: #888;
     color: white;
     position: absolute;
-    z-index: 1;
   }
 
   #message {
     margin-top: 20px;
     font-size: 20px;
-    color: #800040;
+    color: #ffffff;
+    text-shadow: 2px 2px 6px #000000;
     padding: 0 15px;
-  }
-
-  img {
-    margin-top: 20px;
-    width: 85%;
-    max-width: 300px;
-    border-radius: 15px;
-    display: none;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    z-index: 10;
+    position: relative;
   }
 
   .heart {
@@ -72,6 +70,7 @@
     font-size: 20px;
     animation: floatUp 6s linear infinite;
     color: #ff3366;
+    z-index: 5;
   }
 
   @keyframes floatUp {
@@ -85,6 +84,7 @@
     height: 8px;
     top: 0;
     animation: fall 3s linear forwards;
+    z-index: 5;
   }
 
   @keyframes fall {
@@ -106,20 +106,29 @@
 </div>
 
 <div id="message"></div>
-<img id="photo" src="ourphoto.jpg" alt="Us together">
 
-<audio id="bgMusic" src="canthelpfallinginlove.mp3"></audio>
+<audio id="bgMusic" src="canthelpfallinginlove.mp3" loop></audio>
 
 <script>
 let yesSize = 18;
 let noClicks = 0;
 
+// Autoplay music (with mobile fallback)
+const music = document.getElementById("bgMusic");
+function startMusic() {
+  music.play().catch(() => {
+    document.body.addEventListener('click', () => {
+      music.play();
+    }, { once: true });
+  });
+}
+window.onload = startMusic;
+
 function sayYes() {
   document.getElementById("message").innerHTML =
-    "I knew you would say yes!!! ❤️ Life feels better with you bubi. I love you so much 🥰";
+    "Yay Hannah ❤️ Life feels better with you. I love you so much 🥰";
 
-  document.getElementById("photo").style.display = "block";
-  document.getElementById("bgMusic").play();
+  music.play();
   launchConfetti();
 }
 
@@ -137,16 +146,16 @@ function moveNo() {
   button.style.top = y + "px";
 
   yesSize += 3;
-  document.getElementById("yesBtn").style.fontSize = yesSize + "px";
+  const yesBtn = document.getElementById("yesBtn");
+  yesBtn.style.fontSize = yesSize + "px";
+  yesBtn.style.position = "relative"; // keep YES button inside container
 
-  // Count NO attempts
   noClicks++;
   if(noClicks >= 5) {
     takeOverYes();
   }
 }
 
-// YES takes over screen after too many NO tries
 function takeOverYes() {
   const yes = document.getElementById("yesBtn");
   yes.style.position = "fixed";
